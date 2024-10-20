@@ -56,3 +56,433 @@ logout.jsp
     session.invalidate(); // Destroy the session
     response.sendRedirect("login.jsp"); // Redirect to login page
 %>
+
+------------------------------------------------------------------------------------------------------------
+# Python program for implementation of Bubble Sort
+
+def bubbleSort(arr):
+	n = len(arr)
+	# optimize code, so if the array is already sorted, it doesn't need
+	# to go through the entire process
+	swapped = False
+	# Traverse through all array elements
+	for i in range(n-1):
+		# range(n) also work but outer loop will
+		# repeat one time more than needed.
+		# Last i elements are already in place
+		for j in range(0, n-i-1):
+
+			# traverse the array from 0 to n-i-1
+			# Swap if the element found is greater
+			# than the next element
+			if arr[j] > arr[j + 1]:
+				swapped = True
+				arr[j], arr[j + 1] = arr[j + 1], arr[j]
+		
+		if not swapped:
+			# if we haven't needed to make a single swap, we
+			# can just exit the main loop.
+			return
+
+
+# Driver code to test above
+arr = [64, 34, 25, 12, 22, 11, 90]
+
+bubbleSort(arr)
+
+print("Sorted array is:")
+for i in range(len(arr)):
+	print("% d" % arr[i], end=" ")
+
+------------------------------------------------------------------------------------------------------------
+# hash for integer unchanged
+print('Hash for 181 is:', hash(181))
+
+# hash for decimal
+print('Hash for 181.23 is:',hash(181.23))
+
+# hash for string
+print('Hash for Python is:', hash('Python'))
+
+------------------------------------------------------------------------------------------------------------
+
+
+# Python 3 code to demonstrate
+# working of hash()
+ 
+# initializing objects
+int_val = 4
+str_val = 'india'
+flt_val = 24.56
+ 
+# Printing the hash values.
+
+print("The integer hash value is : " + str(hash(int_val)))
+print("The string hash value is : " + str(hash(str_val)))
+print("The float hash value is : " + str(hash(flt_val)))
+
+------------------------------------------------------------------------------------------------------------
+
+# Insertion sort in Python
+
+
+def insertionSort(array):
+
+    for step in range(1, len(array)):
+        key = array[step]
+        j = step - 1
+        
+        # Compare key with each element on the left of it until an element smaller than it is found
+        # For descending order, change key<array[j] to key>array[j].        
+        while j >= 0 and key < array[j]:
+            array[j + 1] = array[j]
+            j = j - 1
+        
+        # Place key at after the element just smaller than it.
+        array[j + 1] = key
+
+
+data = [9, 5, 1, 4, 3]
+insertionSort(data)
+print('Sorted Array in Ascending Order:')
+print(data)
+
+------------------------------------------------------------------------------------------------------------
+
+def mergeSort(arr):
+        if len(arr) > 1: 
+            # Create sub_array2 ← A[start..mid] and sub_array2 ← A[mid+1..end]
+            mid = len(arr)//2
+            sub_array1 = arr[:mid]
+            sub_array2 = arr[mid:]
+ 
+            # Sort the two halves
+            mergeSort(sub_array1)
+            mergeSort(sub_array2)
+         
+            # Initial values for pointers that we use to keep track of where we are in each array
+            i = j = k = 0
+ 
+        # Until we reach the end of either start or end, pick larger among
+        # elements start and end and place them in the correct position in the sorted array
+            while i < len(sub_array1) and j < len(sub_array2):
+                if sub_array1[i] < sub_array2[j]:
+                    arr[k] = sub_array1[i]
+                    i += 1
+                else:
+                    arr[k] = sub_array2[j]
+                    j += 1
+                k += 1
+ 
+        # When all elements are traversed in either arr1 or arr2,
+        # pick up the remaining elements and put in sorted array
+            while i < len(sub_array1):
+                arr[k] = sub_array1[i]
+                i += 1
+                k += 1
+ 
+            while j < len(sub_array2):
+                arr[k] = sub_array2[j]
+                j += 1
+                k += 1
+ 
+arr = [10, 9, 2, 4, 6, 13]
+mergeSort(arr)
+print(arr)
+
+
+------------------------------------------------------------------------------------------------------------
+# Function to find the partition position
+def partition(array, low, high):
+	# choose the rightmost element as pivot
+	pivot = array[high]
+
+	# pointer for greater element
+	i = low - 1
+
+	# traverse through all elements
+	# compare each element with pivot
+	for j in range(low, high):
+		if array[j] <= pivot:
+
+			# If element smaller than pivot is found
+			# swap it with the greater element pointed by i
+			i = i + 1
+
+			# Swapping element at i with element at j
+			(array[i], array[j]) = (array[j], array[i])
+
+	# Swap the pivot element with the greater element specified by i
+	(array[i + 1], array[high]) = (array[high], array[i + 1])
+
+	# Return the position from where partition is done
+	return i + 1
+
+# function to perform quicksort
+def quickSort(array, low, high):
+	if low < high:
+		pi = partition(array, low, high)
+
+		# Recursive call on the left of pivot
+		quickSort(array, low, pi - 1)
+
+		# Recursive call on the right of pivot
+		quickSort(array, pi + 1, high)
+
+
+data = [1, 7, 4, 1, 10, 9, -2]
+print("Unsorted Array")
+print(data)
+
+size = len(data)
+
+quickSort(data, 0, size - 1)
+
+print('Sorted Array in Ascending Order:')
+print(data)
+
+------------------------------------------------------------------------------------------------------------
+
+# Selection sort in Python
+# time complexity O(n*n)
+# sorting by finding min_index
+def selectionSort(array, size):	
+	for ind in range(size):
+		selected_index = ind
+		for j in range(ind + 1, size):
+			# select the minimum element in every iteration
+			if array[j] < array[selected_index]:
+				selected_index = j
+		# swapping the elements to sort the array
+		(array[ind], array[selected_index]) = (array[selected_index], array[ind])
+
+arr = [-2, 45, 0, 11, -9,88,-97,-202,747]
+size = len(arr)
+selectionSort(arr, size)
+print('The array after sorting in Ascending Order by selection sort is:')
+print(arr)
+
+------------------------------------------------------------------------------------------------------------
+def search(data, item, start, end):
+    
+    if start > end:
+        return -1
+    
+    mid = (start + end) // 2
+
+    if data[mid] == item:
+        return mid
+    elif item > data[mid]:
+        return search(data, item, mid + 1, end)
+    elif item < data[mid]:
+        return search(data, item, start, mid - 1)
+
+
+data = [1, 5, 10, 15, 20, 25, 30]
+s = int(input("Enter search term: "))
+
+index = search(data, s, 0, len(data) - 1)
+if index == -1:
+    print("%d not found in list." % s)
+else:
+    print("%d found at index %d." % (s, index))
+----------------------------------------------------------------------------------------------------------
+
+def search(data, item):
+    for i in range(0, len(data)):
+        if data[i] == item:
+            return i
+    return -1
+
+data = [0, 4, 2, 1, 5, 3]
+s = int(input("Enter search term: "))
+
+index = search(data, s)
+if index == -1:
+    print("%d not found in list." % s)
+else:
+    print("%d found at index %d." % (s, index))
+----------------------------------------------------------------------------------------------------------
+python crud gui
+
+from tkinter import *
+import tkinter.messagebox as MessageBox
+import mysql.connector as mysql
+
+# Prepared by Quora Classes 9409977170   ( BCA & Diploma in Computer Engineering)
+# Create Tkinter window
+root = Tk()
+root.geometry("500x500")
+root.title("MySQL CRUD Operations")
+
+
+# Insert function
+def Insert():
+    id = id_entry.get()
+    name = name_entry.get()
+    phone = phone_entry.get()
+    if(id == "" or name == "" or phone == ""):
+        MessageBox.showinfo("ALERT", "Please enter all fields")
+    else:
+        con = mysql.connect(host="localhost", user="root", password="", database="collegedb")
+        cursor = con.cursor()
+        cursor.execute("insert into tblData values('" + id + "', '" + name + "', '" + phone + "')")
+        cursor.execute("commit");
+        MessageBox.showinfo("Status", "Successfully Inserted")
+        con.close();
+
+# delete function
+def Del():
+    if(id_entry.get() == ""):
+        MessageBox.showinfo("ALERT", "Please enter ID to delete row")
+    else:
+        con = mysql.connect(host="localhost", user="root", password="", database="collegedb")
+        cursor = con.cursor()
+        cursor.execute("delete from tbldata where id='"+ id_entry.get() +"'")
+        cursor.execute("commit");
+        id_entry.delete(0, 'end')
+        name_entry.delete(0, 'end')
+        phone_entry.delete(0, 'end')
+        MessageBox.showinfo("Status", "Successfully Deleted")
+        con.close();
+        
+# Update function
+def Update():
+    id = id_entry.get()
+    name = name_entry.get()
+    phone = phone_entry.get()
+    if(id=="" or name == "" or phone == ""):
+        MessageBox.showinfo("ALERT", "Please enter fiels you want to update!")
+    else:
+        con = mysql.connect(host="localhost", user="root", password="", database="collegedb")
+        cursor = con.cursor()
+        cursor.execute("update tbldata set name = '"+ name +"', phone='"+ phone +"' where id ='"+ id +"'")
+        cursor.execute("commit");
+        MessageBox.showinfo("Status", "Successfully Updated")
+        con.close();
+        
+# Select function
+def Select():
+    if(id_entry.get() == ""):
+        MessageBox.showinfo("ALERT","ID is required to select row!")
+    else:
+        con = mysql.connect(host="localhost", user="root", password="", database="collegedb")
+        cursor = con.cursor()
+        cursor.execute("select * from tbldata where id= '" + id_entry.get() +"'")
+        rows = cursor.fetchall()
+        for row in rows:
+            name_entry.insert(0, row[1])
+            phone_entry.insert(0, row[2])
+        con.close();
+        
+# Now we will add labels and entry box or inputs
+
+id = Label(root, text="Enter ID:", font=("verdana 15"))
+id.place(x=50, y=30)
+id_entry = Entry(root, font=("verdana 15"))
+id_entry.place(x=150, y=30)
+
+name = Label(root, text="Name:", font=("verdana 15"))
+name.place(x=50, y=80)
+name_entry = Entry(root, font=("Arial 15"))
+name_entry.place(x=150, y=80)
+
+phone = Label(root, text="Phone:", font=("verdana 15"))
+phone.place(x=50, y=130)
+phone_entry= Entry(root, font=("verdana 15"))
+phone_entry.place(x=150, y=130)
+
+btnInsert = Button(root, text="Insert", command=Insert, font=("verdana 15"))
+btnInsert.place(x=100, y=190)
+
+btnDelete = Button(root, text="Delete", command=Del, font=("verdana 15"))
+btnDelete.place(x=200, y=190)
+
+btnUpdate = Button(root, text="Update", command=Update, font=("verdana 15"))
+btnUpdate.place(x=320, y=190)
+btnSelect= Button(root, text="Search", command=Select, font=("verdana 15"))
+btnSelect.place(x=200, y=240)
+
+root.mainloop()
+
+------------------------------------------------------------------------------------------------------------
+import matplotlib
+from matplotlib import pyplot
+x=[10,20,50,60,70]
+y=[100,52,45,65,45]
+pyplot.plot(x,y)
+pyplot.show()
+------------------------------------------------------------------------------------------------------------
+from matplotlib import pyplot as plt
+x=[56,76,45,56]
+y=[65,78,34,76]
+plt.title('Example chart BCA')
+plt.ylabel('Y axes')
+plt.xlabel('X axes')
+plt.plot(x,y)
+plt.show()
+------------------------------------------------------------------------------------------------------------
+from matplotlib import pyplot as plt
+x=[56,76,45,56]
+y=[65,78,34,76]
+
+x1=[56,6,89,3,76,34,76,34]
+y1=[6,87,9,9,36,5,7,45]
+
+plt.title('Example chart BCA')
+plt.ylabel('Y axes')
+plt.xlabel('X axes')
+plt.plot(x,y,'y',label='BCA sem 1',linewidth=3)
+plt.plot(x1,y1,'r',label='BCA sem 5',linewidth=5)
+plt.legend()
+plt.grid(True,color='b')
+plt.show()
+------------------------------------------------------------------------------------------------------------
+from matplotlib import pyplot as plt
+bmwx=[0.25,1.25,2.25,3.25,4.25]
+bmwy=[50,40,70,80,20]
+audix=[0.75,1.75,2.75,3.75,4.75]
+audiy=[80,20,20,50,60]
+
+plt.bar(bmwx,bmwy,label="BMW",color='b',width=0.5)
+plt.bar(audix,audiy,label="AUDI",color='r',width=0.5)
+
+plt.legend()
+plt.xlabel('Months')
+plt.ylabel('Sales')
+plt.title('Car information')
+plt.show()
+------------------------------------------------------------------------------------------------------------
+import matplotlib.pyplot as plt
+page=[23,34,23,35,56,76,78,45,76,4,34,65,34,76,45,65,67,87,34,23,45,65,34,65,34,65,32,45,23,54,65,34,56]
+bins=[0,10,20,30,40,50,60,70,80,90,100]
+plt.hist(page,bins,histtype='bar',rwidth=0.8)
+plt.xlabel('age groups')
+plt.ylabel('Number of people')
+plt.title('Age histrogram')
+plt.show()
+------------------------------------------------------------------------------------------------------------
+import matplotlib.pyplot as plt
+x=[34,54,64,75,84,95,105]
+y=[10,20,30,40,50,60,70]
+
+x1=[4,14,24,35,44,55,65]
+y1=[1,2,3,4,5,6,7]
+
+plt.scatter(x,y,label='Sample dataset 1',color='r')
+plt.scatter(x1,y1,marker='D',label='sample dataset 2',color='b')
+
+plt.xlabel('Time')
+plt.ylabel('Distance')
+plt.legend()
+plt.show()
+------------------------------------------------------------------------------------------------------------
+import matplotlib.pyplot as plt
+carlabels=['benz','bmw','suzuki','toyota','mahindra']
+carsales=[105,285,45,57,445]
+col=['r','b','g','c','y']
+exp=[0,0,0,0,0]
+plt.pie(carsales,labels=carlabels,colors=col,explode=exp,autopct='%1.2f%%')
+plt.title('Pie Plot')
+plt.show()
+------------------------------------------------------------------------------------------------------------
