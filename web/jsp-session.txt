@@ -1,0 +1,58 @@
+index.jsp   
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page with Session</title>
+    </head>
+    <body>
+        <%
+            try {
+                String name = request.getParameter("username");
+                String password = request.getParameter("password");
+
+                if (name != null && name.equals(password)) {
+                    session.setAttribute("username", name);
+                    out.println("<h1>Welcome, " + name + "!</h1>");
+                    out.println("<a href='logout.jsp'>Logout</a>");
+                } else if (session.getAttribute("username") != null) {
+                    out.println("<h1>Welcome back, " + session.getAttribute("username") + "!</h1>");
+                    out.println("<a href='logout.jsp'>Logout</a>");
+                } else {
+                    out.println("<h1>Invalid login, please try again.</h1>");
+                    out.println("<a href='login.jsp'>Go back to Login</a>");
+                }
+            } catch (Exception e) {
+                out.println("An error occurred: " + e.getMessage());
+            }
+        %>
+    </body>
+</html>
+
+login.jsp
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <form method="POST" action="main.jsp">
+            <input type="text" name="username" id="username" required placeholder="enter your name">
+            <input type="password" name="password" id="password" required placeholder="enter your password">
+            <button type="submit">submit</button>
+        </form>
+    </body>
+</html>
+
+logout.jsp
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    session.invalidate(); // Destroy the session
+    response.sendRedirect("login.jsp"); // Redirect to login page
+%>
