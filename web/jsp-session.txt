@@ -486,3 +486,147 @@ plt.pie(carsales,labels=carlabels,colors=col,explode=exp,autopct='%1.2f%%')
 plt.title('Pie Plot')
 plt.show()
 ------------------------------------------------------------------------------------------------------------
+import mysql.connector
+from tkinter import *
+from tkinter import messagebox
+
+root = Tk()
+root.title("Student Management")
+
+# Establish MySQL connection
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="",
+    database="company"
+)
+
+# Function to insert data
+def insert_data():
+    snm = txtsnm.get().strip()
+    result = txtres.get().strip()
+
+    if not snm or not result:
+        messagebox.showerror("Input Error", "Name & Result cannot be left empty.")
+        return
+
+    try:
+        mycursor = mydb.cursor()
+        sql = "INSERT INTO stud (name, result) VALUES (%s, %s)"
+        val = (snm, result)
+        mycursor.execute(sql, val)
+        mydb.commit()
+        count = mycursor.rowcount
+
+        if count == 1:
+            messagebox.showinfo("SQL", "Record inserted successfully!")
+        else:
+            messagebox.showinfo("Database", "No record inserted.")
+    except mysql.connector.Error as err:
+        messagebox.showerror("Database Error", str(err))
+    finally:
+        mycursor.close()
+
+# Function to select a record by ID
+def select_id():
+    mycursor = mydb.cursor()
+    id = txtid.get().strip()
+
+    if not id:
+        messagebox.showerror("Input Error", "ID cannot be empty.")
+        return
+
+    try:
+        sql = "SELECT * FROM stud WHERE id = %s"
+        val = (id,)
+        mycursor.execute(sql, val)
+        result = mycursor.fetchall()
+
+        if len(result) == 1:
+            for x in result:
+                txtsnm.delete(0, END)
+                txtres.delete(0, END)
+                txtsnm.insert(0, x[1])  # Insert name
+                txtres.insert(0, x[2])  # Insert result
+        else:
+            txtsnm.delete(0, END)
+            txtres.delete(0, END)
+            messagebox.showerror("Database", "No record found.")
+    except mysql.connector.Error as err:
+        messagebox.showerror("Database Error", str(err))
+    finally:
+        mycursor.close()
+
+# Function to update record by ID
+def update_data():
+    id = txtid.get().strip()
+    snm = txtsnm.get().strip()
+    result = txtres.get().strip()
+
+    if not id or not snm or not result:
+        messagebox.showerror("Input Error", "ID, Name, & Result cannot be empty.")
+        return
+
+    try:
+        mycursor = mydb.cursor()
+        sql = "UPDATE stud SET name = %s, result = %s WHERE id = %s"
+        val = (snm, result, id)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        if mycursor.rowcount == 1:
+            messagebox.showinfo("SQL", "Record updated successfully!")
+        else:
+            messagebox.showinfo("Database", "No record updated.")
+    except mysql.connector.Error as err:
+        messagebox.showerror("Database Error", str(err))
+    finally:
+        mycursor.close()
+
+# Function to delete record by ID
+def delete_data():
+    id = txtid.get().strip()
+
+    if not id:
+        messagebox.showerror("Input Error", "ID cannot be empty.")
+        return
+
+    try:
+        mycursor = mydb.cursor()
+        sql = "DELETE FROM stud WHERE id = %s"
+        val = (id,)
+        mycursor.execute(sql, val)
+        mydb.commit()
+
+        if mycursor.rowcount == 1:
+            messagebox.showinfo("SQL", "Record deleted successfully!")
+            txtsnm.delete(0, END)
+            txtres.delete(0, END)
+        else:
+            messagebox.showinfo("Database", "No record deleted.")
+    except mysql.connector.Error as err:
+        messagebox.showerror("Database Error", str(err))
+    finally:
+        mycursor.close()
+
+# GUI Layout
+Label(root, text="Enter ID").pack()
+txtid = Entry(root)
+txtid.pack()
+
+Button(root, text="Search", command=select_id).pack()
+
+Label(root, text="Enter Student Name").pack()
+txtsnm = Entry(root)
+txtsnm.pack()
+
+Label(root, text="Enter Result").pack()
+txtres = Entry(root)
+txtres.pack()
+
+Button(root, text="Insert", command=insert_data).pack()
+Button(root, text="Update", command=update_data).pack()
+Button(root, text="Delete", command=delete_data).pack()
+
+# Run the main Tkinter loop
+root.mainloop()
