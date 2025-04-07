@@ -1,0 +1,101 @@
+# resize img
+
+from PIL import Image
+from realesrgan import RealESRGAN
+import torch
+
+# Load image
+input_image = Image.open("low_res_image.jpg").convert("RGB")
+
+# Set device
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Load model
+model = RealESRGAN(device, scale=4)  # You can change scale to 2 or 4
+model.load_weights('RealESRGAN_x4.pth')  # This will auto-download if not found
+
+# Enhance image
+sr_image = model.predict(input_image)
+
+# Save and show
+sr_image.save("super_res_image.jpg")
+sr_image.show()
+
+===============================================================================================
+
+# face and eye detection
+
+
+
+---
+
+
+
+import cv2
+
+# Load image
+img = cv2.imread('person.jpg')
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+# Load pre-trained Haar cascades (ML-based)
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
+
+# Detect faces
+faces = face_cascade.detectMultiScale(gray)
+
+for (x, y, w, h) in faces:
+    cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
+    roi_gray = gray[y:y+h, x:x+w]
+    roi_color = img[y:y+h, x:x+w]
+
+    # Detect eyes inside the face
+    eyes = eye_cascade.detectMultiScale(roi_gray)
+    for (ex, ey, ew, eh) in eyes:
+        cv2.rectangle(roi_color, (ex, ey), (ex+ew, ey+eh), (0, 255, 0), 2)
+
+# Save the result
+cv2.imwrite('output.jpg', img)
+print("Detection done. Output saved as 'output.jpg'")
+
+
+===============================================================================================
+
+# play video using open cv
+
+
+import cv2
+
+# Load face detection model (pre-trained)
+face_model = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+
+# Open video file or webcam (0 = default camera)
+cap = cv2.VideoCapture("your_video.mp4")  # Replace with 0 for webcam
+
+while True:
+    success, frame = cap.read()
+    if not success:
+        break
+
+    # Convert to grayscale for face detection
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    # Detect faces
+    faces = face_model.detectMultiScale(gray)
+
+    # Draw green boxes around faces
+    for (x, y, w, h) in faces:
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+    # Show the frame
+    cv2.imshow("Video with Face Detection", frame)
+
+    # Break loop on 'q' key
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+# Release resources
+cap.release()
+cv2.destroyAllWindows()
+
+=====================================================================================================
