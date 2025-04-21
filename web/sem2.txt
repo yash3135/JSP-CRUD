@@ -1,0 +1,524 @@
+========================================================
+DSA
+========================================================
+stack.c
+========================================================
+#include <stdio.h>
+
+int stack[100],top,size;
+
+void push()
+{
+
+    if(top == size-1)
+        printf("\nstack is overflow :)\n");
+    else
+    {
+        int data;
+        printf("\nenter a value :- ");
+        scanf("%d",&data);
+        top++;
+        stack[top]=data;
+    }
+}
+
+void pop()
+{
+    if(top == -1)
+        printf("\nstack is underflow :)\n\n");
+    else
+    {
+        printf("\npoped element :- %d\n\n",stack[top]);
+        top--;
+    }
+}
+
+void display()
+{
+    
+    if(top == -1)
+        printf("\nstack is underflow :)\n\n");
+    else
+    {
+        printf("stack:- \n");
+        for(int i=top;i>=0;i--)
+            printf("%d\n",stack[i]);   
+    }
+
+}
+
+void main()
+{
+    
+    printf("enter size of stack:- ");
+    scanf("%d",&size);
+    top=-1;
+    int choice;
+    do
+    {
+        printf("Program of Stack :- \n1.Push\n2.Pop\n3.Display\n4.Exit\nEnter choice:- ");
+        scanf("%d",&choice);
+        switch (choice)
+        {
+            case 1:
+                push();
+                break;
+                
+            case 2:
+                pop();
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                printf("script exited!");
+                break;
+            default:
+                printf("invalid choice!\n");
+                break;
+                break;
+        }
+    } while (choice!=4);
+    
+}
+========================================================
+queue.c
+========================================================
+#include <stdio.h>
+
+int queue[5], size = 5, front = -1, rear = -1;
+
+void enqueue()
+{
+    if (rear == size - 1)
+    {
+        printf("queue is full! \n");
+    }
+    else
+    {
+        int number;
+        printf("enter a number :- ");
+        scanf("%d", &number);
+        if (front == -1)
+            front = 0;
+        rear++;
+        queue[rear] = number;
+        printf("\ninsetred :- %d\n", queue[rear]);
+    }
+}
+
+void dequeue()
+{
+    int temp = front;
+    if (front == -1)
+    {
+        printf("underflow!\n");
+    }
+    else if (front == rear)
+    {
+        printf("deleted :- %d", queue[temp]);
+        front = rear = -1;
+    }
+    else
+    {
+        printf("deleted :- %d", queue[temp]);
+        front++;
+    }
+}
+void display()
+{
+    if (front == -1)
+    {
+        printf("\nunderflow!");
+    }
+    else
+        for (int i = front; i <= rear; i++)
+        {
+            printf("\n\nelement %d", queue[i]);
+        }
+}
+
+int main()
+{
+    dequeue();
+    enqueue();
+    enqueue();
+    enqueue();
+    dequeue();
+    display();
+    return 0;
+}
+========================================================
+bubblesort.c
+========================================================
+#include <stdio.h>
+#include <stdlib.h>
+
+
+void bubblesort(int arr[],int n)
+{
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < n-i-1; j++) {
+            if(arr[j]>arr[j+1])
+            {
+                arr[j+1]=(arr[j]+arr[j+1])-(arr[j]=arr[j+1]);
+            }
+        }
+    }
+}
+
+void display(int arr[],int n)
+{
+    for (int i = 0; i < n; i++) {
+        printf("Array:- ");
+        printf("%d \n",arr[i]);
+    }
+}
+
+void main()
+{
+    int arr[] = {7,16,5,36,1,8};
+    int n = sizeof(arr)/sizeof(arr[0]);
+    printf("before sorted:- \n ");
+    display(arr,n);
+
+    bubblesort(arr,n);
+
+    printf("after sorted:- \n ");
+    display(arr,n);
+}
+
+========================================================
+insertion.c
+========================================================
+#include <stdio.h>
+#include <stdlib.h>
+
+void insertionsort(int arr[],int n)
+{
+    int i,j,key;
+    for ( i = 0; i < n ; i++) {
+        key = arr[i];
+        j = i-1;
+        while (j>=0 && arr[j]>key) {
+            arr[j+1]=arr[j];
+            j--;
+        }
+        arr[j+1]=key;
+    }
+}
+
+void display(int arr[],int n)
+{
+    for (int i = 0; i < n; i++) {
+        printf("%d \n",arr[i]);
+    }
+}
+
+void main()
+{
+    int arr[]={99,35,69,59,5,30,4,1};
+    int n = sizeof(arr)/sizeof(arr[0]);
+
+    printf("before sorted:- \n");
+    display(arr,n);
+
+    insertionsort(arr,n);
+
+    printf("after sorted:- \n");
+    display(arr,n);
+}
+========================================================
+selection.c
+========================================================
+#include <stdio.h>
+#include <stdlib.h>
+
+void selectionsort(int arr[], int n)
+{
+
+    for (int i = 0; i < n; i++)
+    {
+        int min = i;
+        for (int j = i + 1; j < n; j++)
+        {
+            if (arr[j] < arr[min])
+            {
+                min = j;
+            }
+        }
+        arr[i] = (arr[min] + arr[i]) - (arr[min] = arr[i]);
+    }
+}
+
+void display(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d \n", arr[i]);
+    }
+}
+
+void main()
+{
+    int arr[] = {20, 5, 1, 35, 70, 60, 90};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    printf("before sorted:- \n");
+    display(arr, n);
+
+    selectionsort(arr, n);
+
+    printf("after sorted:- \n");
+    display(arr, n);
+}
+========================================================
+binary_search.c
+========================================================
+#include <stdio.h>
+
+int binarySearch(int array[], int x, int low, int high) {
+  // Repeat until the pointers low and high meet each other
+  while (low <= high) {
+    int mid = low + (high - low) / 2;
+
+    if (x == array[mid])
+      return mid;
+
+    if (x > array[mid])
+      low = mid + 1;
+
+    else
+      high = mid - 1;
+  }
+
+  return -1;
+}
+
+int main(void) {
+  int array[] = {3, 4, 5, 6, 7, 8, 9};
+  int n = sizeof(array) / sizeof(array[0]);
+  int x = 4;
+  int result = binarySearch(array, x, 0, n - 1);
+  if (result == -1)
+    printf("Not found");
+  else
+    printf("Element is found at index %d", result);
+  return 0;
+}
+========================================================
+shell_sort.c
+========================================================
+// Shell Sort in C programming
+
+#include <stdio.h>
+
+// Shell sort
+void shellSort(int array[], int n) {
+  // Rearrange elements at each n/2, n/4, n/8, ... intervals
+  for (int interval = n / 2; interval > 0; interval /= 2) {
+    for (int i = interval; i < n; i += 1) {
+      int temp = array[i];
+      int j;
+      for (j = i; j >= interval && array[j - interval] > temp; j -= interval) {
+        array[j] = array[j - interval];
+      }
+      array[j] = temp;
+    }
+  }
+}
+
+// Print an array
+void printArray(int array[], int size) {
+  for (int i = 0; i < size; ++i) {
+    printf("%d  ", array[i]);
+  }
+  printf("\n");
+}
+
+// Driver code
+int main() {
+  int data[] = {9, 8, 3, 7, 5, 6, 4, 1};
+  int size = sizeof(data) / sizeof(data[0]);
+  shellSort(data, size);
+  printf("Sorted array: \n");
+  printArray(data, size);
+}
+========================================================
+sequential_search.c
+========================================================
+#include <stdio.h>
+
+int search(int array[], int n, int x) {
+  
+  // Going through array sequencially
+  for (int i = 0; i < n; i++)
+    if (array[i] == x)
+      return i;
+  return -1;
+}
+
+int main() {
+  int array[] = {2, 4, 0, 1, 9};
+  int x = 1;
+  int n = sizeof(array) / sizeof(array[0]);
+
+  int result = search(array, n, x);
+
+  (result == -1) ? printf("Element not found") : printf("Element found at index: %d", result);
+}
+========================================================
+PHP CRUD
+========================================================
+conn.php
+========================================================
+<?php
+
+    $host = 'localhost';
+    $user = 'root';
+    $password = '';
+    $database = 'userDetail';
+
+    $connection = mysqli_connect($host, $user, $password, $database);
+
+    if(!$connection)
+    {
+        die("Connection failed: " . mysqli_connect_error());
+    }
+?>
+========================================================
+index.php
+========================================================
+<?php
+    include './conn.php';
+
+    if(isset($_POST['insert']))
+    {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+
+        $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+        
+        $result = mysqli_query($connection, $sql);
+        if(!$result)
+        {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
+        echo "<script>window.location.href = 'index.php';</script>";
+    }
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Crud</title>
+    <!-- PHP Crud Operations(create, read , update, delete) -->
+    <!-- created by : Reetu Tejvani -->
+</head>
+<body>
+    <h1>User Form</h1>
+    <form action="" method="post">
+        <input type="text" name="name" id="" placeholder="Enter name">
+        <br>
+        <input type="email" name="email" id="" placeholder="Enter email">
+        <br>
+        <input type="password" name="password" id="" placeholder="Enter password">
+        <br>
+        <input type="submit" value="insert" name="insert" id="">
+    </form>
+
+    <h1>Show Data</h1>
+    <table border="1">
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>email</th>
+            <!-- <th>password</th>      -->
+             <th>action</th>
+             <th>action</th>
+        </tr>
+        <?php
+        $sql = "SELECT * FROM users";
+        $result = mysqli_query($connection, $sql);
+        if(!$result)
+        {
+            echo "Error: " . $sql . "<br>" . mysqli_error($connection);
+            }
+            while($row = mysqli_fetch_assoc($result))
+            {
+                echo "<tr>";
+                echo "<td>" . $row['id'] . "</td>";
+                echo "<td>" . $row['name'] . "</td>";
+                echo "<td>" . $row['email'] . "</td>";
+                // echo "<td>" . $row['password'] . "</td>";
+                echo "<td> <a href='update.php?id=" . $row['id'] . "'>UPDATE</a></td>";
+                echo "<td><a href='delete.php?id=" . $row['id'] . "'>DELETE</a></td>";
+                echo "</tr>";
+                }
+                ?>
+    </table>
+</body>
+</html>
+========================================================
+update.php
+========================================================
+<?php
+
+    include './conn.php';
+
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM `users` WHERE `id` = $id";
+    $result = mysqli_query($connection, $sql);
+    $row = mysqli_fetch_assoc($result);
+
+    if(isset($_POST['update']))
+    {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $update_sql = "UPDATE `users` SET `name` = '$name', `email` = '$email', `password` = '$password' where `id` = $id";
+        mysqli_query($connection, $update_sql);
+        header("Location: ./index.php");
+
+    }
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<h1>Update Form</h1>
+    <form action="" method="post">
+        <input type="text" name="name" id="" placeholder="Enter name" value="<?= $row['name'] ?>">
+        <br>
+        <input type="email" name="email" id="" placeholder="Enter email"value="<?= $row['email'] ?>">
+        <br>
+        <input type="password" name="password" id="" placeholder="Enter password"value="<?= $row['password'] ?>">
+        <br>
+        <input type="submit" value="update" name="update" id="">
+    </form>
+</body>
+</html>
+========================================================
+delete.php
+========================================================
+<?php
+include './conn.php';
+
+$id = $_GET['id'];
+$sql = "DELETE FROM users WHERE id = $id";
+
+mysqli_query($connection, $sql);
+
+header('Location: ./index.php');
+
+?>
+========================================================
